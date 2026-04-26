@@ -1,34 +1,30 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardSimpleComponent } from './dashboard-simple/dashboard-simple.component';
+import { TestComponent } from './test.component';
 
-import { SupabaseService } from './services/supabase.service';
-
-import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    DashboardSimpleComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppRoutingModule
   ],
-  providers: [
-    SupabaseService,
-    provideCharts(withDefaultRegisterables())
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

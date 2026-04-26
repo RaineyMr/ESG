@@ -46,13 +46,33 @@ export interface Holding {
   providedIn: 'root'
 })
 export class SupabaseService {
-  private supabase: SupabaseClient;
+  private supabase: SupabaseClient | null = null;
+  private isInitialized = false;
 
   constructor() {
-    this.supabase = createClient(
-      environment.supabaseUrl,
-      environment.supabaseKey
-    );
+    // Delay initialization to avoid timeout issues
+    setTimeout(() => {
+      try {
+        this.supabase = createClient(
+          environment.supabaseUrl,
+          environment.supabaseKey
+        );
+        this.isInitialized = true;
+      } catch (error) {
+        console.error('Supabase initialization error:', error);
+      }
+    }, 1000);
+  }
+
+  get supabaseClient(): SupabaseClient {
+    if (!this.isInitialized || !this.supabase) {
+      throw new Error('Supabase client not initialized yet');
+    }
+    return this.supabase;
+  }
+
+  isReady(): boolean {
+    return this.isInitialized && this.supabase !== null;
   }
 
   // Portfolio operations
