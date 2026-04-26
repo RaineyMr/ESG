@@ -1,0 +1,13 @@
+{
+  "name": "esg-dashboard-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd esg-dashboard-frontend && npm run build",
+    "dev": "cd esg-dashboard-frontend && npm start"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

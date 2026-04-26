@@ -1,12 +1,21 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "esg-dashboard-frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/esg-portfolio-dashboard"
+      }
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "https://tezicztsnkyhfikyahal.supabase.co/functions/v1/$1"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!api).*)",
       "destination": "/index.html"
     }
   ]

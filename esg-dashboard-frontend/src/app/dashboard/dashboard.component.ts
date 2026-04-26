@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SupabaseService } from '../services/supabase.service';
+import { SupabaseRobustService } from '../services/supabase-robust.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,42 +12,65 @@ export class DashboardComponent implements OnInit {
   holdings: any[] = [];
   isLoading = true;
   error: string | null = null;
+  dataSource: 'database' | 'mock' | 'loading' | 'error' = 'loading';
+  lastUpdated: Date | null = null;
 
   constructor(
-    private supabaseService: SupabaseService
+    private supabaseService: SupabaseRobustService
   ) {}
 
   ngOnInit(): void {
     this.loadDashboardData();
   }
 
-  loadDashboardData(): void {
+  async loadDashboardData(): Promise<void> {
     this.isLoading = true;
     this.error = null;
+    this.dataSource = 'loading';
 
-    // Load portfolios
-    this.supabaseService.getAllPortfolios().subscribe({
-      next: (data) => {
-        this.portfolios = data;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.error = 'Failed to load portfolios';
-        this.isLoading = false;
-        console.error(err);
-      }
-    });
+    try {
+      // Check service health
+      const isHealthy = await this.supabaseService.healthCheck();
+      
+      // Load portfolios
+      this.supabaseService.getAllPortfolios().subscribe({
+        next: (data) => {
+          this.portfolios = data;
+          this.dataSource = isHealthy ? 'database' : 'mock';
+          this.lastUpdated = new Date();
+          this.loadHoldings();
+        },
+        error: (err) => {
+          this.error = 'Failed to load portfolios';
+          this.isLoading = false;
+          this.dataSource = 'error';
+          console.error('Portfolio loading error:', err);
+        }
+      });
 
-    // Load holdings (using first portfolio for demo)
+    } catch (err) {
+      this.error = 'Service initialization failed';
+      this.isLoading = false;
+      this.dataSource = 'error';
+      console.error('Service initialization error:', err);
+    }
+  }
+
+  loadHoldings(): void {
     if (this.portfolios.length > 0) {
+      // Load holdings for the first portfolio
       this.supabaseService.getHoldingsByPortfolio(this.portfolios[0].id).subscribe({
         next: (data) => {
           this.holdings = data;
+          this.isLoading = false;
         },
         error: (err) => {
-          console.error('Failed to load holdings:', err);
+          console.error('Holdings loading error:', err);
+          this.isLoading = false; // Still complete loading even if holdings fail
         }
       });
+    } else {
+      this.isLoading = false;
     }
   }
 
