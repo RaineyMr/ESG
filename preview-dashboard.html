@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESG Portfolio Dashboard - Preview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .dashboard-container {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border-radius: 0.5rem;
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #fff;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
+        }
+        .table-responsive {
+            border-radius: 0.5rem;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        .badge {
+            font-size: 0.75em;
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        .status-live {
+            background-color: #198754;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="container-fluid">
+            <!-- Header -->
+            <div class="row mb-4">
+                <div class="col">
+                    <h2 class="mb-0">
+                        <i class="bi bi-graph-up text-primary me-2"></i>
+                        ESG Portfolio Dashboard
+                    </h2>
+                    <p class="text-muted">Real-time portfolio performance and ESG metrics</p>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" onclick="refreshData()">
+                        <i class="bi bi-arrow-clockwise me-2"></i>Refresh Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- Live Status -->
+            <div class="alert alert-success" role="alert">
+                <div class="d-flex align-items-center">
+                    <span class="status-indicator status-live"></span>
+                    <strong>Live Data Active</strong> - Connected to Supabase with real-time updates
+                </div>
+            </div>
+
+            <!-- Portfolio Overview Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Portfolio Value</h5>
+                            <h3 class="card-text" id="totalValue">$11,100,000</h3>
+                            <small>Across 5 portfolios</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Holdings</h5>
+                            <h3 class="card-text" id="totalHoldings">23</h3>
+                            <small>Individual securities</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Portfolios</h5>
+                            <h3 class="card-text" id="portfolioCount">5</h3>
+                            <small>Active portfolios</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <h5 class="card-title">Last Update</h5>
+                            <h3 class="card-text" id="lastUpdate">Live</h3>
+                            <small>Real-time data</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio List -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="bi bi-briefcase me-2"></i>
+                                Portfolio Overview
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Portfolio Name</th>
+                                            <th>Total Value</th>
+                                            <th>Currency</th>
+                                            <th>Inception Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="portfolioTable">
+                                        <tr>
+                                            <td>
+                                                <strong>Sustainable Technology Leaders</strong>
+                                                <br>
+                                                <small class="text-muted">Focus on high-ESG rated technology companies</small>
+                                            </td>
+                                            <td class="text-end">
+                                                <strong>$2,500,000</strong>
+                                            </td>
+                                            <td>USD</td>
+                                            <td>2022-01-15</td>
+                                            <td>
+                                                <span class="badge bg-success">Active</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>ESG Global Equity</strong>
+                                                <br>
+                                                <small class="text-muted">Diversified global companies with strong ESG</small>
+                                            </td>
+                                            <td class="text-end">
+                                                <strong>$3,200,000</strong>
+                                            </td>
+                                            <td>USD</td>
+                                            <td>2020-03-10</td>
+                                            <td>
+                                                <span class="badge bg-success">Active</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Social Impact Portfolio</strong>
+                                                <br>
+                                                <small class="text-muted">Companies with exceptional social performance</small>
+                                            </td>
+                                            <td class="text-end">
+                                                <strong>$2,100,000</strong>
+                                            </td>
+                                            <td>USD</td>
+                                            <td>2022-09-05</td>
+                                            <td>
+                                                <span class="badge bg-success">Active</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Green Energy Transition</strong>
+                                                <br>
+                                                <small class="text-muted">Renewable energy and clean technology</small>
+                                            </td>
+                                            <td class="text-end">
+                                                <strong>$1,800,000</strong>
+                                            </td>
+                                            <td>USD</td>
+                                            <td>2021-06-01</td>
+                                            <td>
+                                                <span class="badge bg-success">Active</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Climate Solutions Fund</strong>
+                                                <br>
+                                                <small class="text-muted">Climate change mitigation solutions</small>
+                                            </td>
+                                            <td class="text-end">
+                                                <strong>$1,500,000</strong>
+                                            </td>
+                                            <td>USD</td>
+                                            <td>2023-01-20</td>
+                                            <td>
+                                                <span class="badge bg-success">Active</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Holdings -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="bi bi-graph-up-arrow me-2"></i>
+                                Top Holdings (Sample)
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Company</th>
+                                            <th>Ticker</th>
+                                            <th>Sector</th>
+                                            <th>Quantity</th>
+                                            <th>Current Price</th>
+                                            <th>Market Value</th>
+                                            <th>Weight</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="holdingsTable">
+                                        <tr>
+                                            <td>
+                                                <strong>Microsoft Corporation</strong>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">MSFT</span>
+                                            </td>
+                                            <td>Technology</td>
+                                            <td class="text-end">8,000</td>
+                                            <td class="text-end">$378.85</td>
+                                            <td class="text-end">
+                                                <strong>$3,030,800</strong>
+                                            </td>
+                                            <td class="text-end">27.3%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Apple Inc.</strong>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">AAPL</span>
+                                            </td>
+                                            <td>Technology</td>
+                                            <td class="text-end">12,000</td>
+                                            <td class="text-end">$178.25</td>
+                                            <td class="text-end">
+                                                <strong>$2,139,000</strong>
+                                            </td>
+                                            <td class="text-end">19.3%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Walmart Inc.</strong>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">WMT</span>
+                                            </td>
+                                            <td>Consumer Staples</td>
+                                            <td class="text-end">10,000</td>
+                                            <td class="text-end">$168.35</td>
+                                            <td class="text-end">
+                                                <strong>$1,683,500</strong>
+                                            </td>
+                                            <td class="text-end">15.2%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Visa Inc.</strong>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">V</span>
+                                            </td>
+                                            <td>Financial Services</td>
+                                            <td class="text-end">4,000</td>
+                                            <td class="text-end">$268.45</td>
+                                            <td class="text-end">
+                                                <strong>$1,073,800</strong>
+                                            </td>
+                                            <td class="text-end">9.7%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong>Accenture plc</strong>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">ACN</span>
+                                            </td>
+                                            <td>Technology</td>
+                                            <td class="text-end">5,000</td>
+                                            <td class="text-end">$325.80</td>
+                                            <td class="text-end">
+                                                <strong>$1,629,000</strong>
+                                            </td>
+                                            <td class="text-end">14.7%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Status -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="bi bi-wifi me-2"></i>
+                                API Connection Status
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <span class="status-indicator status-live"></span>
+                                        <div>
+                                            <strong>Supabase Database</strong>
+                                            <br>
+                                            <small class="text-muted">Connected - Live data</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <span class="status-indicator status-live"></span>
+                                        <div>
+                                            <strong>Market Data API</strong>
+                                            <br>
+                                            <small class="text-muted">Yahoo Finance - Live prices</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <span class="status-indicator status-live"></span>
+                                        <div>
+                                            <strong>ESG Functions</strong>
+                                            <br>
+                                            <small class="text-muted">Supabase Edge Functions</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simulate real-time data updates
+        function refreshData() {
+            const timestamp = new Date().toLocaleTimeString();
+            document.getElementById('lastUpdate').textContent = timestamp;
+            
+            // Add animation to show refresh
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.style.opacity = '0.7';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                }, 300);
+            });
+            
+            // Show success message
+            showNotification('Data refreshed successfully!', 'success');
+        }
+
+        function showNotification(message, type) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} alert-dismissible fade show`;
+            alert.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            const container = document.querySelector('.container-fluid');
+            container.insertBefore(alert, container.firstChild);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(refreshData, 30000);
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', function() {
+            refreshData();
+        });
+    </script>
+</body>
+</html>

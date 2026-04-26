@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Portfolio {
   id: number;
@@ -49,7 +50,7 @@ export interface Holding {
   providedIn: 'root'
 })
 export class PortfolioService {
-  private apiUrl = 'http://localhost:8080/api/portfolios';
+  private apiUrl = `${environment.apiUrl}/portfolios`;
 
   constructor(private http: HttpClient) {}
 

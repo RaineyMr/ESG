@@ -1,0 +1,54 @@
+.dashboard-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border-radius: 0.5rem;
+}
+
+.card-header {
+  background-color: #fff;
+  border-bottom: 1px solid #dee2e6;
+  font-weight: 600;
+}
+
+.table-responsive {
+  border-radius: 0.5rem;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.badge {
+  font-size: 0.75em;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.bg-primary {
+  background-color: #0d6efd !important;
+}
+
+.bg-success {
+  background-color: #198754 !important;
+}
+
+.bg-info {
+  background-color: #0dcaf0 !important;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+}
+
+.bg-secondary {
+  background-color: #6c757d !important;
+}

@@ -270,3 +270,6 @@ config/secrets.json
 # Database dumps
 *.sql.dump
 *.dump
+
+.vercel
+.env*.local

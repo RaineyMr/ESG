@@ -59,7 +59,10 @@
               "sourceMap": false,
               "optimization": true,
               "extractLicenses": true,
-              "namedChunks": false
+              "namedChunks": false,
+              "buildOptimizer": true,
+              "aot": true,
+              "ngswConfigPath": "ngsw-config.json"
             },
             "development": {
               "buildOptimizer": false,
@@ -127,7 +130,8 @@
   "cli": {
     "schematicCollections": [
       "@angular-eslint/schematics"
-    ]
+    ],
+    "analytics": false
   },
   "schematics": {
     "@angular-eslint/schematics:application": {
