@@ -104,13 +104,13 @@ async function scheduleUpdates() {
     Deno.env.get('SUPABASE_ANON_KEY') ?? ''
   )
   
-  // Check if updates are needed (last update more than 15 minutes ago)
+  // Check if updates are needed (last update more than 5 minutes ago)
   const lastUpdates = await getLastUpdates(supabase)
   const now = new Date()
-  const fifteenMinutesAgo = new Date(now.getTime() - 15 * 60 * 1000)
+  const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000)
   
   const needsMarketUpdate = !lastUpdates.lastMarketUpdate || 
-    new Date(lastUpdates.lastMarketUpdate) < fifteenMinutesAgo
+    new Date(lastUpdates.lastMarketUpdate) < fiveMinutesAgo
   
   const needsESGUpdate = !lastUpdates.lastESGUpdate || 
     new Date(lastUpdates.lastESGUpdate) < new Date(now.getTime() - 24 * 60 * 60 * 1000) // 24 hours
