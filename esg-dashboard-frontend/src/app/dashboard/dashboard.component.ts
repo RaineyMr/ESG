@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SupabaseService } from '../services/supabase.service';
 
 @Component({
@@ -7,6 +7,7 @@ import { SupabaseService } from '../services/supabase.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  @Input() portfolio: any;
   portfolios: any[] = [];
   holdings: any[] = [];
   isLoading = true;

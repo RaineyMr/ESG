@@ -1,11 +1,8 @@
 // ESG Portfolio Dashboard - Main Styles
 // Professional financial dashboard with dark theme and modern UI
 
-// Import Bootstrap
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/utilities";
+// Import Bootstrap CSS directly
+@import "bootstrap/dist/css/bootstrap.min.css";
 
 // Custom Variables
 $primary-color: #1e3a8a;

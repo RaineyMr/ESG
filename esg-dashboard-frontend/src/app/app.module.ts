@@ -1,47 +1,33 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { PortfolioListComponent } from './portfolio-list/portfolio-list.component';
-import { PortfolioDetailComponent } from './portfolio-detail/portfolio-detail.component';
-import { EsgMetricsComponent } from './esg-metrics/esg-metrics.component';
-import { RiskAnalysisComponent } from './risk-analysis/risk-analysis.component';
-import { HoldingsTableComponent } from './holdings-table/holdings-table.component';
-import { ChartsComponent } from './charts/charts.component';
 
-import { PortfolioService } from './services/portfolio.service';
-import { EsgService } from './services/esg.service';
-import { RiskService } from './services/risk.service';
+import { SupabaseService } from './services/supabase.service';
 
-import { Ng2ChartsModule } from 'ng2-charts';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
-    PortfolioListComponent,
-    PortfolioDetailComponent,
-    EsgMetricsComponent,
-    RiskAnalysisComponent,
-    HoldingsTableComponent,
-    ChartsComponent
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
-    Ng2ChartsModule
+    BrowserAnimationsModule
   ],
   providers: [
-    PortfolioService,
-    EsgService,
-    RiskService
+    SupabaseService,
+    provideCharts(withDefaultRegisterables())
   ],
   bootstrap: [AppComponent]
 })
