@@ -13,7 +13,6 @@ import { TestComponent } from './test.component';
 import { SupabaseRobustService } from './services/supabase-robust.service';
 import { AppRoutingModule } from './app-routing.module';
 
-import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -32,8 +31,7 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
     AppRoutingModule
   ],
   providers: [
-    SupabaseRobustService,
-    provideCharts(withDefaultRegisterables())
+    SupabaseRobustService
   ],
   bootstrap: [AppComponent]
 })
