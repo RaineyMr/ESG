@@ -1,14 +1,9 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "esg-dashboard-frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/esg-portfolio-dashboard"
-      }
-    }
-  ],
+  "buildCommand": "cd esg-dashboard-frontend && npm run build",
+  "outputDirectory": "esg-dashboard-frontend/dist/esg-portfolio-dashboard",
+  "installCommand": "cd esg-dashboard-frontend && npm install",
+  "framework": null,
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -16,7 +11,7 @@
     },
     {
       "source": "/((?!api).*)",
-      "destination": "/index.html"
+      "destination": "/esg-dashboard-frontend/index.html"
     }
   ]
 }

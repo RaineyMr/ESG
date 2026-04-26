@@ -7,7 +7,7 @@
     "start": "ng serve",
     "build": "ng build --configuration production",
     "build:prod": "ng build --configuration production",
-    "vercel-build": "ng build --configuration production --base-href=/",
+    "vercel-build": "ng build --configuration production --base-href=/esg-dashboard-frontend/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
